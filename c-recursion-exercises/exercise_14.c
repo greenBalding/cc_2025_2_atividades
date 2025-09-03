@@ -1,19 +1,16 @@
-/*
- * Autor: Jules
- * Data: 28/08/2025
- * Funcionalidade: Multiplicação de dois números naturais através de somas sucessivas.
- */
+// MATHEUS SILVA PAINS
+// 02/09/2025
+// 14. Multiplicação de dois números naturais, através de somas sucessivas(Ex.: 6 x 4 = 4 + 4 + 4 + 4 + 4 + 4).
+
 #include <stdio.h>
 
-// Função recursiva para multiplicar por somas sucessivas
 int multiplicacao_soma(int a, int b) {
     if (a < 0 || b < 0) {
-        return -1; // Apenas para números naturais
+        return -1;
     }
     if (a == 0 || b == 0) {
         return 0;
     }
-    // Para otimizar, podemos iterar o menor número de vezes
     if (a < b) {
         return multiplicacao_soma(b, a);
     }
@@ -22,13 +19,13 @@ int multiplicacao_soma(int a, int b) {
 
 int main() {
     int a, b;
-    printf("Digite dois números naturais para multiplicar: ");
+    printf("Digite 2 números: ");
     scanf("%d %d", &a, &b);
 
     int resultado = multiplicacao_soma(a, b);
 
     if (resultado == -1) {
-        printf("Este programa funciona apenas com números naturais (não negativos).\n");
+        printf("O número precisa ser >= 0.\n");
     } else {
         printf("%d * %d = %d\n", a, b, resultado);
     }

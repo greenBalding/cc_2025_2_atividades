@@ -1,36 +1,35 @@
-/*
- * Autor: Jules
- * Data: 28/08/2025
- * Funcionalidade: Calcula o N-ésimo termo da sequência de Tribonacci.
- * Observação: A definição exata não foi fornecida (imagem ausente).
- * Esta implementação usa a definição T(0)=0, T(1)=1, T(2)=1.
- */
+// MATHEUS SILVA PAINS
+// 02/09/2025
+// 12. Faça uma função recursiva que receba um número N e retorne o N-ésimo termo da sequência de tribonacci
+
 #include <stdio.h>
 
-// Função recursiva para o N-ésimo termo de Tribonacci
-int tribonacci(int n) {
+int f(int n) {
     if (n < 0) {
-        return -1; // Posição inválida
+        return -1; // Caso inválido
     }
     if (n == 0) {
-        return 0;
+        return 0; // Caso 1
     }
-    if (n == 1 || n == 2) {
-        return 1;
+    if (n == 1) {
+        return 0; // Caso 2
     }
-    return tribonacci(n - 1) + tribonacci(n - 2) + tribonacci(n - 3);
+    if (n == 2) {
+        return 1; // Caso 3
+    }
+    return f(n - 1) + f(n - 2) + f(n - 3);
 }
 
 int main() {
     int n;
-    printf("Digite o termo (N) da sequência de Tribonacci: ");
+    printf("N: ");
     scanf("%d", &n);
 
     if (n < 0) {
-        printf("O termo N deve ser um inteiro não negativo.\n");
+        printf("O número precisa ser > 0.\n");
     } else {
-        int resultado = tribonacci(n);
-        printf("O %d-ésimo termo da sequência de Tribonacci é %d.\n", n, resultado);
+        int resultado = f(n);
+        printf("N sequência de f é %d.\n", n, resultado);
     }
 
     return 0;

@@ -1,11 +1,10 @@
-/*
- * Autor: Jules
- * Data: 28/08/2025
- * Funcionalidade: Imprime todos os números naturais de 0 até N em ordem crescente.
- */
+// MATHEUS SILVA PAINS
+// 02/09/2025
+// 1. Faça uma função recursiva que receba um número inteiro positivo N e imprima todos os números naturais de 0 até N em ordem crescente.
+
 #include <stdio.h>
 
-// Função recursiva para imprimir números em ordem crescente
+// Essa função imprime números de 0 até n em ordem crescente
 void imprimir_crescente(int n) {
     if (n >= 0) {
         imprimir_crescente(n - 1);
@@ -13,19 +12,18 @@ void imprimir_crescente(int n) {
     }
 }
 
+// Na função main, lê o valor de N e chama a função recursiva
 int main() {
     int n;
-    printf("Digite um número inteiro positivo N: ");
+    printf("N: ");
     scanf("%d", &n);
 
     if (n < 0) {
-        printf("O número deve ser positivo.\n");
+        printf("O número precisa ser > 0.\n");
         return 1;
     }
 
-    printf("Números de 0 a %d em ordem crescente: ", n);
     imprimir_crescente(n);
-    printf("\n");
 
     return 0;
 }

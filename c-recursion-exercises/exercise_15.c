@@ -1,31 +1,28 @@
-/*
- * Autor: Jules
- * Data: 28/08/2025
- * Funcionalidade: Soma de dois números naturais, através de incrementos sucessivos.
- */
+// MATHEUS SILVA PAINS
+// 02/09/2025
+// 15. Soma de dois números naturais, através de incrementos sucessiv (Ex.: 3 + 2 = + + (+ + 3)).
+
 #include <stdio.h>
 
-// Função recursiva para somar por incrementos sucessivos
 int soma_incremento(int a, int b) {
     if (a < 0 || b < 0) {
-        return -1; // Apenas para números naturais
+        return -1;
     }
     if (b == 0) {
         return a;
     }
-    // Incrementa 'a' e decrementa 'b' até 'b' chegar a 0
     return soma_incremento(a + 1, b - 1);
 }
 
 int main() {
     int a, b;
-    printf("Digite dois números naturais para somar: ");
+    printf("Digite 2 números: ");
     scanf("%d %d", &a, &b);
 
     int resultado = soma_incremento(a, b);
 
     if (resultado == -1) {
-        printf("Este programa funciona apenas com números naturais (não negativos).\n");
+        printf("O número precisa ser >=0.\n");
     } else {
         printf("%d + %d = %d\n", a, b, resultado);
     }

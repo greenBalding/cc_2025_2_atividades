@@ -1,15 +1,12 @@
-/*
- * Autor: Jules
- * Data: 28/08/2025
- * Funcionalidade: Contém uma função recursiva que recebe dois inteiros
- *                positivos k e n e calcula k^n.
- */
+// MATHEUS SILVA PAINS
+// 02/09/2025
+// 11. Crie um programa em C, que contenha uma função recursiva que receba dois inteiros positivos k e n e calcule kn . Utilize apenas multiplicações. O programa principal deve solicitar ao usuário os valores de k e n e imprimir o resultado da chamada da função.
+
 #include <stdio.h>
 
-// Função recursiva para calcular k^n usando multiplicações
 long long potencia(int k, int n) {
     if (n < 0) {
-        return -1; // Expoente negativo não é suportado nesta versão
+        return -1;
     }
     if (n == 0) {
         return 1;
@@ -23,7 +20,7 @@ int main() {
     scanf("%d %d", &k, &n);
 
     if (k < 0 || n < 0) {
-        printf("Este programa suporta apenas inteiros positivos para k e n.\n");
+        printf("k e n devem ser > 0.\n");
     } else {
         long long resultado = potencia(k, n);
         printf("%d^%d = %lld\n", k, n, resultado);
