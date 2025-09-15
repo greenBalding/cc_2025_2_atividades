@@ -96,8 +96,23 @@ void displayTabelaHash(TabelaHash* th) {
         printf("\n");
     }
 }
+ 
+// 06 - CRIAR A FUNÇÃO DE LIBERAR A MEMORIA ---------------------------------------------
 
-// 06 - CRIAR A MAIN ----------------------------------------------
+void liberarMemoria(TabelaHash* th) {
+    for (int i = 0; i < th->tamanho; i++) {
+        No* atual = th->tabela[i];
+        while (atual != NULL) {
+            No* temp = atual;
+            atual = atual->proximoNo;
+            free(temp);
+        }
+    }
+    free(th->tabela);
+    free(th);
+}
+
+// 07 - CRIAR A MAIN ----------------------------------------------
 
 int main() {
 
@@ -110,11 +125,11 @@ int main() {
     // Agora a gente vai criar um for para o usuário poder inserir os alunos e as matriculas
     for (int i = 0; i < MAX_ALUNOS; i++) {
         char nomeAluno[100];
-        long int matricula;
+        int matricula;
         printf("Digite o nome %d: ", i);
         scanf("%s", nomeAluno);
         printf("Digite a matricula %d: ", i);
-        scanf("%ld", &matricula);
+        scanf("%d", &matricula);
         
         // A gente usa a função setAluno para setar os valores na struct Aluno
         setAluno(&alunos[i], matricula, nomeAluno);
@@ -128,5 +143,7 @@ int main() {
     // Agora a gente mostra a tabela hash
     displayTabelaHash(th);
 
+    // Por fim a gente libera a memoria alocada
+    liberarMemoria(th);
     return 0;
 }
