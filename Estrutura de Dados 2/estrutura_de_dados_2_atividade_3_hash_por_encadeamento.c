@@ -43,3 +43,48 @@ TabelaHash* criarTabelaHash(int tamanho) {
 int funcaoHash(int matricula,  int tamanho) {
     return matricula % tamanho; // Aqui a gente retorna o resto da divisao inteira da matricula pelo tamanho da tabela hash.
 }
+
+// 04 - CRIAR AS FUNÇÕES DE INSERIR/DELETAR ALUNO ----------------------------------------------
+
+void inserirAluno(TabelaHash* th, Aluno* aluno){
+    int indice = funcaoHash(aluno->matricula, th->tamanho); // Aqui a gente vai acessar a matricula do aluno via ponteiro, bem como o tamanho da tabela hash.
+    No* novoNo = (No*)malloc(sizeof(No));
+    novoNo->aluno = *aluno;
+    novoNo->proximoNo = th->tabela[indice];
+    th->tabela[indice] = novoNo;
+}
+
+void deletarAluno(TabelaHash* th, Aluno* aluno) {
+    int indice = funcaoHash(aluno->matricula, th->tamanho);
+    No* atual = th->tabela[indice];
+    No* anterior = NULL;
+
+    while (atual != NULL) {
+        if (atual->aluno.matricula == aluno->matricula) {
+            if (anterior == NULL)
+                th->tabela[indice] = atual->proximoNo;
+            else
+                anterior->proximoNo = atual->proximoNo;
+            free(atual);
+            return;
+        }
+        anterior = atual;
+        atual = atual->proximoNo;
+    }
+}
+
+// 05 - CRIAR A FUNÇÃO DE MOSTRAR A TABELA HASH ----------------------------------------------
+
+void displayTabelaHash(TabelaHash* th) {
+    printf("\nTabela Hash:\n");
+    
+    for (int i = 0; i < th->tamanho; i++) {
+        printf("%d", i);
+        No* atual = th->tabela[i];
+        while (atual != NULL) {
+            printf("-> %d", atual->aluno.matricula);
+            atual = atual->proximoNo;
+        }
+        printf("\n");
+    }
+}
