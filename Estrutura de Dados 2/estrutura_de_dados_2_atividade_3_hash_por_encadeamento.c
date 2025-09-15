@@ -37,3 +37,9 @@ TabelaHash* criarTabelaHash(int tamanho) {
 
     return novaTabelaHash; // Aqui a gente retorna o endereco da tabela hash criada.
 }
+
+// 03 - CRIAR A FUNÇÃO DE HASH ----------------------------------------------
+
+int funcaoHash(int matricula,  int tamanho) {
+    return matricula % tamanho; // Aqui a gente retorna o resto da divisao inteira da matricula pelo tamanho da tabela hash.
+}
