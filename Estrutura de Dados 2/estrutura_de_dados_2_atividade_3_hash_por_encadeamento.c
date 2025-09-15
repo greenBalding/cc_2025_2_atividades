@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define TAMANHO 100
+
 // 01 - DEFINIR AS STRUCTS QUE SERÃO USADAS ----------------------------------------------
 
 // Primeira coisa é definir a struct aluno
@@ -21,3 +23,17 @@ typedef struct {
     No** tabela; // Aqui vamos definir uma LISTA DE PONTEIROS. Ou seja, cada posição da TabelaHash vai guardar o endereco (no*) do primeiro no daquela lista encadeada.
     int tamanho; // Aqui a gente define o tamanho da TabelaHash, e que mais para frente a gente vai estruturar um jeito de deixar esse tamanho dinâmico. Com aumentos percentuais para quando atingir o tamanho inicial/maximo corrente.
 } TabelaHash;
+
+// 02 - CRIAR A TABELA HASH ----------------------------------------------
+
+TabelaHash* criarTabelaHash(int tamanho) {
+    TabelaHash* novaTabelaHash = (TabelaHash*)malloc(sizeof(TabelaHash)); //  Essa primeira linhas aqui é para a gente medir o tamanho e pegar esse tamanho e alocar na memoria (via malloc)
+    novaTabelaHash->tamanho = tamanho; // Aqui a gente define o tamanho da tabela hash
+    novaTabelaHash->tabela = (No**)malloc(tamanho * sizeof(No*)); // Aqui a gente aloca o tamanho da tabela hash, que é o numero de posicoes vezes o tamanho de cada posicao (que é um ponteiro para No)
+
+    for (int i = 0; i < tamanho; i++) {
+        novaTabelaHash->tabela[i] = NULL; // Aqui a gente inicializa todas as posicoes da tabela hash com NULL, ou seja, sem nenhum no na lista encadeada.
+    }
+
+    return novaTabelaHash; // Aqui a gente retorna o endereco da tabela hash criada.
+}
