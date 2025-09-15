@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define TAMANHO 100
-#define MAX_ALUNOS 10
+// #define MAX_ALUNOS 10
 
 // 01 - DEFINIR AS STRUCTS QUE SERÃO USADAS ----------------------------------------------
 
@@ -119,29 +119,77 @@ int main() {
     // Primeiro a gente inicializa a tabela hash
     TabelaHash* th = criarTabelaHash(TAMANHO); // TAMANHO foi definido la em cima como tamanho da tabela sendo 100
 
+    // Vou definir um menu aqui para o user poder escolher o que fazer
+
+    int opcao; // Guardar a opcao do user
+
+    do {
+    
+        printf("\nMenu:\n");
+        printf("1. Inserir Aluno\n");
+        printf("2. Deletar Aluno\n");
+        printf("3. Mostrar Tabela Hash\n"); 
+        printf("4. Sair\n");
+        printf("Escolha uma opcao: ");
+
+        scanf("%d", &opcao); // Pegar a opcao do user
+
+        switch (opcao) {
+
+            case 1: {
+                char nomeAluno[100];
+                int matricula;
+                printf("Digite o nome do aluno: ");
+                scanf("%s", nomeAluno);
+                printf("Digite a matricula do aluno: ");
+                scanf("%d", &matricula);
+                
+                Aluno novoAluno;
+                setAluno(&novoAluno, matricula, nomeAluno);
+                inserirAluno(th, &novoAluno);
+                break;
+            }
+            case 2: {
+                int matricula;
+                printf("Digite a matricula do aluno a ser deletado: ");
+                scanf("%d", &matricula);
+                
+                Aluno alunoParaDeletar;
+                setAluno(&alunoParaDeletar, matricula, "");
+                deletarAluno(th, &alunoParaDeletar);
+                break;
+            }
+            case 3:
+                displayTabelaHash(th);
+                break;
+            case 4:
+                printf("Saindo...\n");
+                break;
+            default:
+                printf("Opcao invalida! Tente novamente.\n");
+        }
+    } while (opcao != 4);
+
     // Depois a gente inicializa a quantidade de alunos que o usuário podera inserir
-    Aluno alunos[MAX_ALUNOS]; // MAX_ALUNOS foi definido la em cima como 10
+    // Aluno alunos[MAX_ALUNOS]; // MAX_ALUNOS foi definido la em cima como 10
 
     // Agora a gente vai criar um for para o usuário poder inserir os alunos e as matriculas
-    for (int i = 0; i < MAX_ALUNOS; i++) {
-        char nomeAluno[100];
-        int matricula;
-        printf("Digite o nome %d: ", i);
-        scanf("%s", nomeAluno);
-        printf("Digite a matricula %d: ", i);
-        scanf("%d", &matricula);
+    // for (int i = 0; i < MAX_ALUNOS; i++) {
+    //    char nomeAluno[100];
+    //    int matricula;
+    //    printf("Digite o nome %d: ", i);
+    //    scanf("%s", nomeAluno);
+    //    printf("Digite a matricula %d: ", i);
+    //    scanf("%d", &matricula);
         
-        // A gente usa a função setAluno para setar os valores na struct Aluno
-        setAluno(&alunos[i], matricula, nomeAluno);
-      }
+    // A gente usa a função setAluno para setar os valores na struct Aluno
+    //    setAluno(&alunos[i], matricula, nomeAluno);
+    //  }
 
     // Agora a gente insere os alunos na tabela hash
-    for (int i = 0; i < MAX_ALUNOS; i++) {
-        inserirAluno(th, &alunos[i]);
-    }
-
-    // Agora a gente mostra a tabela hash
-    displayTabelaHash(th);
+    // for (int i = 0; i < MAX_ALUNOS; i++) {
+    //    inserirAluno(th, &alunos[i]);
+    //}
 
     // Por fim a gente libera a memoria alocada
     liberarMemoria(th);
