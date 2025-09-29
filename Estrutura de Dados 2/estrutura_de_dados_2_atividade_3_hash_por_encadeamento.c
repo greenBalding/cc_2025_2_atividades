@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define TAMANHO 100
+// #define MAX_ALUNOS 10
 
 // 01 - DEFINIR AS STRUCTS QUE SERÃO USADAS ----------------------------------------------
 
@@ -44,7 +45,7 @@ int funcaoHash(int matricula,  int tamanho) {
     return matricula % tamanho; // Aqui a gente retorna o resto da divisao inteira da matricula pelo tamanho da tabela hash.
 }
 
-// 04 - CRIAR AS FUNÇÕES DE INSERIR/DELETAR ALUNO ----------------------------------------------
+// 04 - CRIAR AS FUNÇÕES DE INSERIR/DELETAR ALUNO e a função setAluno ----------------------------------------------
 
 void inserirAluno(TabelaHash* th, Aluno* aluno){
     int indice = funcaoHash(aluno->matricula, th->tamanho); // Aqui a gente vai acessar a matricula do aluno via ponteiro, bem como o tamanho da tabela hash.
@@ -73,6 +74,13 @@ void deletarAluno(TabelaHash* th, Aluno* aluno) {
     }
 }
 
+void setAluno(Aluno* a, int matricula, const char* nomeAluno) {
+    // A gente acessa a matricula via ponteiro
+    a -> matricula = matricula;
+    // A gente copia o nomeAluno para o campo nomeAluno da struct Aluno
+    strcpy(a -> nomeAluno, nomeAluno);
+}
+
 // 05 - CRIAR A FUNÇÃO DE MOSTRAR A TABELA HASH ----------------------------------------------
 
 void displayTabelaHash(TabelaHash* th) {
@@ -88,7 +96,3 @@ void displayTabelaHash(TabelaHash* th) {
         printf("\n");
     }
 }
-
-// 06 - CRIAR A FUNÇÃO PRINCIAL ----------------------------------------------
-
-void 
