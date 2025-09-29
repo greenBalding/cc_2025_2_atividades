@@ -12,20 +12,22 @@ Instruções: Implemente as funções conforme requisitado:
 
 */
 
+// BIBLIOTECAS ---------------------------------------------------------------
+
 #include <stdio.h>
 #include <stdlib.h>
 
-// 1º vamos criar a struct pro node
+// CONSTRUTORES ---------------------------------------------------------------
 
+// 1.1.1. vamos criar a struct pro node
 typedef struct Node {
     int nodeValor;
     struct Node* esquerda;
     struct Node* direita;
-};
+} Node;
 
-// 2º vamos criar a funcao para criar um novo node
-
-struct Node* novoNode(int valor) {
+// 1.1.2. vamos criar a funcao para criar um novo node
+struct Node* nodeNovo(int valor) {
     struct Node* node = (struct Node*)malloc(sizeof(struct Node)); // vamo mallocar a memoria pro node
 
     node->nodeValor = valor; // ai aqui a gente atribui o valor para o node. Na verdade o usuário vai passar o valor na hora de selecionar a opção 1
@@ -33,9 +35,32 @@ struct Node* novoNode(int valor) {
     node->direita = NULL; // seta o filho da direita como vazio
 
     return node; // retorna então a struct do node
-}
+};
 
-// 3º vamos criar as funções do menu de opções
+// 1.2.1. vamos criar a struct para o nó da fila
+typedef struct nodeFila {
+    struct Node* nodePosicao;
+    struct nodeFila* proximaPosicao;
+} nodeFila;
+
+// 1.2.2. vamos criar a struct da fila que permitirá que os nós sejam percorridos nível por nível
+// A fila sempre terá o conhecimento do endereço do ínicio e do fim da fila
+typedef struct Fila {
+    struct nodeFila* inicio;
+    struct nodeFila* fim;
+} Fila;
+
+// 1.2.3. vamos criar a função para criar uma nova fila
+struct Fila* filaNovo() {
+    struct Fila* fila = (struct Fila*)malloc(sizeof(struct Fila)); // vamo mallocar a memoria pra fila
+
+    fila->inicio = NULL; // seta o inicio da fila como vazio
+    fila->fim = NULL; // seta o fim da fila como vazio
+
+    return fila; // retorna então a struct da fila
+};
+
+// FUNÇÕES DO MEU DE OPÇÕES ---------------------------------------------------------------
 
 // função opcao_1: insert node
 // Para isso vamos criar uma função que irá de forma recursiva inserir e atualizar os ponteiros da arvore
@@ -45,7 +70,7 @@ struct Node* insertNode(struct Node* raiz, int valor) {
     // Primeiro coisa é verificar se a raiz é nula. Ou seja, se a arvore está vazia
     if (raiz == NULL)
     {
-        return novoNode(valor); // se estiver vazia, a gente cria um novo node com o valor passado e retorna ele
+        return nodeNovo(valor); // se estiver vazia, a gente cria um novo node com o valor passado e retorna ele
     }
     // Ai caso a arvore não esteja vazia, ou tenha passado pelo primeiro caso, a gente pode começar a inserir os valores com base no valor raiz e fazer as comparações
     if (valor < raiz->nodeValor) 
@@ -61,17 +86,18 @@ struct Node* insertNode(struct Node* raiz, int valor) {
 };
 
 // função opcao_2: breadth search (BFS - Busca em Largura)
+// Para isso vamos criar uma fila para armazenar os nós e ai então fazer a BFS
 
 // função opcao_3: verify item
 
 // função opcao_4: get MAX / MIN
 
-// Função principal
+// FUNÇÃO PRINCIPAL ---------------------------------------------------------------
 
 int main() {
 
     int opcao;
-    struct Node* raiz = NULL; // inicializa a raiz como nula
+    struct Node* raiz = NULL; // inicializa a raiz como nulo
 
     do {
         printf("[Selecione uma Operação]\n");
