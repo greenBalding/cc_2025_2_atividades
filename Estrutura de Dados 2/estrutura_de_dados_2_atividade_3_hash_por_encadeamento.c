@@ -88,3 +88,7 @@ void displayTabelaHash(TabelaHash* th) {
         printf("\n");
     }
 }
+
+// 06 - CRIAR A FUNÇÃO PRINCIAL ----------------------------------------------
+
+void 
