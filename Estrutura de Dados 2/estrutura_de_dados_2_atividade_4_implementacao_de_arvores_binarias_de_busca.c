@@ -35,7 +35,7 @@ struct Node* nodeNovo(int valor) {
     node->direita = NULL; // seta o filho da direita como vazio
 
     return node; // retorna então a struct do node
-};
+}
 
 // 1.2.1. vamos criar a struct para o nó da fila
 typedef struct nodeFila {
@@ -58,7 +58,49 @@ struct Fila* filaNovo() {
     fila->fim = NULL; // seta o fim da fila como vazio
 
     return fila; // retorna então a struct da fila
-};
+}
+
+// 1.2.4. agora vamos criar a função para ADICIONAR o nodeFila na Fila
+void filaAdicionarNode(Fila* fila, struct Node* node) {
+    struct nodeFila* nodeFilaNovo = (struct nodeFila*)malloc(sizeof(struct nodeFila)); // vamo mallocar a memoria pro nodeFila
+
+    // chama o construtor do nodeFila
+    nodeFilaNovo->nodePosicao = node; // seta o nodePosicao do nodeFila como o node passado por parâmetro pelo usuário
+    nodeFilaNovo->proximaPosicao = NULL; // seta o proximaPosicao como vazio
+
+    // A fila está vazia?
+    if (fila->fim == NULL) {
+        fila->inicio = nodeFilaNovo; // se estiver vazia, o inicio da fila é o novo nodeFila
+        fila->fim = nodeFilaNovo; // se estiver vazia, o fim da fila é o novo nodeFila. Ou seja, só tem um elemento na fila agora
+    } else {
+        // A fila não está vazia!
+        fila->fim->proximaPosicao = nodeFilaNovo; // agora o proximaPosicao do fim da fila é o novo nodeFila
+        fila->fim = nodeFilaNovo; // atualiza o fim da fila para o novo nodeFila, dado que antes o fim da fila era o penúltimo nodeFila
+    }
+}
+
+// 1.2.5. agora vamos criar a função para REMOVER o nodeFila da Fila
+struct Node* filaRemoverNode(Fila* fila) {
+    // A fila está vazia?
+    if (fila->inicio == NULL) {
+        return NULL; // se estiver vazia, retorna vazio
+    }
+
+    // A fila não está vazia! Vamos precisar de algumas variáveis temporárias então para poder fazer a remoção
+    struct nodeFila* temp = fila->inicio; // Lembre FIFO - Primeiro a Entrar, Primeiro a Sair. Então o temp vai ser o inicio da fila
+    struct Node* nodeRemovido = temp->nodePosicao; // o nodeRemovido vai ser o nodePosicao do temp, ou seja, o node que tá no inicio da fila
+
+    // Ai por penultimo a gente atualiza o inicio da fila para o valor do proximaPosicao do temp
+    fila->inicio = fila->inicio->proximaPosicao; // atualiza o inicio da fila para o proximaPosicao do inicio da fila
+
+    // Por fim, se o inicio da fila for nulo, ou seja, se a fila voltar a ficar vazia, a gente também atualiza o fim da fila para nulo
+    if (fila->inicio == NULL) {
+        fila->fim = NULL;
+    }
+
+    free(temp);
+    return nodeRemovido;
+}
 
 // FUNÇÕES DO MEU DE OPÇÕES ---------------------------------------------------------------
 
@@ -86,7 +128,30 @@ struct Node* insertNode(struct Node* raiz, int valor) {
 };
 
 // função opcao_2: breadth search (BFS - Busca em Largura)
-// Para isso vamos criar uma fila para armazenar os nós e ai então fazer a BFS
+// Para isso criamos os construtores da fila para armazenar os nós e ai então fazer a BFS
+
+void bfs(struct Node* raiz) {
+    // Primeira coisa é verificar se a busca não será em uma fila vazia
+    if (raiz == NULL) {
+        printf("fila vazia! \n");
+        return;
+    }
+
+    // Beleza, não está vazia. Bora criar a fila e adicionar o node nela
+    struct Fila* fila = filaNovo(); // cria a fila
+    filaAdicionarNode(fila, raiz); // adiciona o node raiz na fila
+
+    while (fila->inicio != NULL) {
+        struct Node* nodeAtual = filaRemoverNode(fila);
+        printf("%d ", nodeAtual->nodeValor);
+        if (nodeAtual->esquerda != NULL) {
+            filaAdicionarNode(fila, nodeAtual->esquerda);
+        } 
+        if (nodeAtual->direita != NULL) {
+            filaAdicionarNode(fila, nodeAtual->direita);
+        }
+    }
+}
 
 // função opcao_3: verify item
 
@@ -117,7 +182,8 @@ int main() {
                 printf("Nó inserido com sucesso!\n");
                 break;
             case 2:
-                // Código para busca em largura (BFS)
+                printf("Busca em Largura (BFS): ");
+                bfs(raiz);
                 break;
             case 3:
                 // Código para verificar se item existe
