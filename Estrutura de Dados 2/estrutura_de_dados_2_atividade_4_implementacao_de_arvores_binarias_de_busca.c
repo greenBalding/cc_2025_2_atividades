@@ -154,8 +154,32 @@ void bfs(struct Node* raiz) {
 }
 
 // função opcao_3: verify item
+void verifyItem(struct Node* raiz,int valor) {
+    // Primeiro é de novo verificar se a raiz é nula.
+    if (raiz == NULL) {
+        printf("fila vazia!\n");
+        return;
+    }
+
+    struct Node* posicaoAtual = raiz; // cria uma variável para percorrer a árvore, começando pela raiz
+    
+    while (posicaoAtual != NULL) {
+        if (valor == posicaoAtual->nodeValor) {
+            printf("Item %d encontrado na árvore.\n", valor);
+            return;
+        } else if (valor < posicaoAtual->nodeValor) {
+            posicaoAtual = posicaoAtual->esquerda; // move para a subárvore esquerda
+        } else {
+            posicaoAtual = posicaoAtual->direita; // move para a subárvore direita
+        }
+    }
+
+    // Se saiu do loop
+    printf("Item %d não encontrado na árvore.\n", valor);
+}
 
 // função opcao_4: get MAX / MIN
+void getMax_getMin() {}
 
 // FUNÇÃO PRINCIPAL ---------------------------------------------------------------
 
@@ -186,7 +210,10 @@ int main() {
                 bfs(raiz);
                 break;
             case 3:
-                // Código para verificar se item existe
+                printf("Digite o valor para verificar: \n");
+                int valorVerificar;
+                scanf("%d", &valorVerificar);
+                verifyItem(raiz, valorVerificar);
                 break;
             case 4:
                 // Código para retornar MAX e MIN
