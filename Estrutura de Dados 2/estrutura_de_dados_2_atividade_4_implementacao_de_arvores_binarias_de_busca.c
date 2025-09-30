@@ -179,7 +179,36 @@ void verifyItem(struct Node* raiz,int valor) {
 }
 
 // função opcao_4: get MAX / MIN
-void getMax_getMin() {}
+// Vamos o mais a direita possivel. Então para isso vamos partir do nó raiz e ir caminhando em um while até chegar no nó mais a direita
+void getMax(struct Node* raiz) {
+    // Como sempre, primeiro vamos verificar se o nó raiz é nulo e se for a gente só sai da função
+    if (raiz == NULL) {
+        printf("Não existem nós na árvore. \n");
+        return;
+    }
+
+    // Agora, se a árvore não estiver vazia, vamos a partir do nó raiz ir por meio da condicional até o nó mais a direita. Ou seja, se o nó ao final apontar para NULL é porque chegamos no nó mais a direita.
+    struct Node* noMax = raiz;
+    while (noMax->direita != NULL){
+        noMax = noMax->direita;
+    }
+    printf("O valor do nó MAX é: %d\n", noMax->nodeValor);
+}
+
+// Vamos o mais a esquerda possivel. Vai ser a mesma lógica da função getMax, mas agora vamos caminhar para a esquerda
+void getMin(struct Node* raiz){
+
+    if (raiz == NULL) {
+        printf("Não existem nós na árvore. \n");
+        return;
+    }
+
+    struct Node* noMin = raiz;
+    while (noMin->esquerda != NULL) {
+        noMin = noMin->esquerda;
+    }
+    printf("O valor do nó MIN é: %d\n", noMin->nodeValor);
+}
 
 // FUNÇÃO PRINCIPAL ---------------------------------------------------------------
 
@@ -216,7 +245,8 @@ int main() {
                 verifyItem(raiz, valorVerificar);
                 break;
             case 4:
-                // Código para retornar MAX e MIN
+                getMax(raiz);
+                getMin(raiz);
                 break;
             case 5:
                 printf("Saindo...\n");
