@@ -14,8 +14,17 @@ Instruções: Implemente as funções conforme requisitado:
 
 >>> Atividade 5 <<<
 - Depth Search (In Order)
+    - Percorrer a sub-árvore esquerda em ordem
+    - Visitar a raiz
+    - Percorrer a sub-árvore direita em ordem
 - Depth Search (Pre Order)
+    - Visitar a raiz
+    - Percorrer a sub-árvore esquerda em pré-ordem
+    - Percorrer a sub-árvore direita em pré-ordem
 - Depth Search (Pos Order)
+    - Percorrer a sub-árvore esquerda em pós-ordem
+    - Percorrer a sub-árvore direita em pós-ordem
+    - Visitar a raiz
 - Depth Search (iterative Pre Order)
 - Depth Search (iterative Pos Order)
 - Depth Search (iterative In Order)
@@ -265,12 +274,24 @@ int main() {
                 getMin(raiz);
                 break;
             case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
                 printf("Saindo...\n");
                 break;
             default:
                 printf("Opção inválida. Tente novamente.\n");
                 break;
         }
-    } while (opcao != 5);
+    } while (opcao != 11);
     return 0;
 }
