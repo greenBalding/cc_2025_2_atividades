@@ -1,14 +1,24 @@
 // N1 - Atividade 04 - Implementação de Árvores Binárias de Busca
+// N2 - Atividade 05 - Implementação de Árvores Binárias de Busca (continuação)
 // Nome: MATHEUS SILVA PAINS - 2024.2.0028.0032-0
 
 /* 
 
 Instruções: Implemente as funções conforme requisitado: 
 
+>>> Atividade 4 <<<
 - Inserir nós na árvore binária de busca.
 - Busca em largura (BFS - Breadth-First Search) iterativa em árvores binárias
 - Verificar se um item existe na árvore
 - Retornar valores MAX e MIN
+
+>>> Atividade 5 <<<
+- Depth Search (In Order)
+- Depth Search (Pre Order)
+- Depth Search (Pos Order)
+- Depth Search (iterative Pre Order)
+- Depth Search (iterative Pos Order)
+- Depth Search (iterative In Order)
 
 */
 
@@ -223,7 +233,13 @@ int main() {
         printf("2 - Breadth Search (Busca em Largura)\n");
         printf("3 - Verify item\n");
         printf("4 - Get MIN / MAX\n");
-        printf("5 - Exit\n");
+        printf("5 - Depth Search (In Order)\n");
+        printf("6 - Depth Search (Pre Order)\n");
+        printf("7 - Depth Search (Pos Order)\n");
+        printf("8 - Depth Search (iterative Pre Order)\n");
+        printf("9 - Depth Search (iterative Pos Order)\n");
+        printf("10 - Depth Search (iterative In Order)\n");
+        printf("11 - Exit\n");
         scanf("%d", &opcao);
         
         switch (opcao) {
