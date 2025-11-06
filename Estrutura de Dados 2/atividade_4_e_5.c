@@ -1,18 +1,20 @@
 // N1 - Atividade 04 - Implementação de Árvores Binárias de Busca
-// N2 - Atividade 05 - Implementação de Árvores Binárias de Busca (continuação)
+// N2 - Atividade 01 - Implementação de Árvores Binárias de Busca (continuação)
+// N2 - Atividade 02 - Implementação Remoção de nós (continuação)
+
 // Nome: MATHEUS SILVA PAINS - 2024.2.0028.0032-0
 
 /* 
 
 Instruções: Implemente as funções conforme requisitado: 
 
->>> Atividade 4 <<<
+>>> N1 Atividade 04 <<<
 - Inserir nós na árvore binária de busca.
 - Busca em largura (BFS - Breadth-First Search) iterativa em árvores binárias
 - Verificar se um item existe na árvore
 - Retornar valores MAX e MIN
 
->>> Atividade 5 <<<
+>>> N2 Atividade 01 <<<
 - Depth Search (In Order)
     - Percorrer a sub-árvore esquerda em ordem
     - Visitar a raiz
@@ -28,6 +30,11 @@ Instruções: Implemente as funções conforme requisitado:
 - Depth Search (iterative Pre Order)
 - Depth Search (iterative Pos Order)
 - Depth Search (iterative In Order)
+
+>>> N2 Atividade 02 <<<
+
+    - Implementar os algoritmos de remoção por CÓPIA;
+    - Implementar os algoritmos de remoção por FUSÃO.
 
 */
 
