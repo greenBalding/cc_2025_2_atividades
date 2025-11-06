@@ -452,6 +452,10 @@ struct Node* remocaoPorCopia(struct Node* raiz, int valor) {
         if (raiz->esquerda != NULL && raiz->direita != NULL){ // Se o nó a esquerda e o nó a direita são diferentes de vázio, então o nó TÊM 2 FILHOS.
             // Dado que tem 2 filhos vamos buscar pelo predecessor, que é o maior valor da subárvore esquerda.
             struct Node* predecessor = raiz->esquerda; // Começa pela subárvore esquerda
+            while(predecessor->direita != NULL) {
+                predecessor = predecessor->direita;
+            }
+            
         }
 
     }
