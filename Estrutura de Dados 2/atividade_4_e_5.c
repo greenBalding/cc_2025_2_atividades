@@ -424,6 +424,10 @@ void depthSearchInOrderIterativa(struct Node* raiz) {
     free(pilha); // libera a memória da pilha
 }
 
+// função opção_11: Remoção por CÓPIA
+
+// função opção_12: Remoção por FUSÃO
+
 // FUNÇÃO PRINCIPAL ---------------------------------------------------------------
 
 int main() {
@@ -443,7 +447,9 @@ int main() {
         printf("8 - Depth Search (iterative Pre Order)\n");
         printf("9 - Depth Search (iterative Pos Order)\n");
         printf("10 - Depth Search (iterative In Order)\n");
-        printf("11 - Exit\n");
+        printf("11 - Remoção por CÓPIA\n");
+        printf("12 - Remoção por FUSÃO\n");
+        printf("13 - Exit\n");
         scanf("%d", &opcao);
         
         switch (opcao) {
@@ -498,7 +504,16 @@ int main() {
                 depthSearchInOrderIterativa(raiz);
                 printf("\n");
                 break;
+                
             case 11:
+                printf("Remoção por CÓPIA:\n");
+                // Chamar a função de remoção por cópia
+                break;
+            case 12:
+                printf("Remoção por FUSÃO:\n");
+                // Chamar a função de remoção por fusão
+                break;
+            case 13:
                 printf("Saindo...\n");
                 break;
             default:
