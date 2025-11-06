@@ -426,7 +426,41 @@ void depthSearchInOrderIterativa(struct Node* raiz) {
 
 // função opção_11: Remoção por CÓPIA
 
+struct Node* remocaoPorCopia(struct Node* raiz, int valor) {
+    // Primeiro, verificar se a raiz é nula
+    if (raiz == NULL) {
+        printf("Árvore está vazia!\n");
+        return raiz; // Ou NULL, não faz muito que diferença aqui
+    }
+
+    // Se a árvore não estiver vazia, ai a gente começa a implementar a lógica de remoção por cópia.
+    // Pra isso primeiro a gente compara o valor que será removido com o valor do nó atual
+    if (valor < raiz->nodeValor) { // Se valor for menor que o valor do nó a gente vai para a subárvore da esquerda
+        raiz->esquerda = remocaoPorCopia(raiz->esquerda, valor); // A gente chama a função recursivamente para a subárvore da esquerda. 
+        // Dessa forma a gente vai descendo recursivamente até encontrar o nó que será removido, dado que o ponteiro do nó a esquerda será atualizado com o retorno da função recursiva.
+
+
+
+    } else if (valor > raiz->nodeValor) { // Se valor for maior que o valor do nó a gente vai para a subárvore da direita
+        raiz->direita = remocaoPorCopia(raiz->direita, valor); // A gente chama a função recursivamente para a subárvore da direita
+        // Da mesma forma que a gente desce recursivamente para a esquerda atualizando o ponteiro, aqui a gente desce para a direita atualizando o ponteiro do nó a direita.
+
+
+    } else { // Se o valor for igual, é porque encontramos o nó a ser removido
+        // No caso em que vamos remover o nó por cópia, primeiro vamos verificar se o nó tem dois filhos, e se tiver vamos prosseguir com a busca pelo predecessor.
+        // Para isso vamos criar mais um bloco de condições 'if'
+        if (raiz->esquerda != NULL && raiz->direita != NULL){ // Se o nó a esquerda e o nó a direita são diferentes de vázio, então o nó TÊM 2 FILHOS.
+            // Dado que tem 2 filhos vamos buscar pelo predecessor, que é o maior valor da subárvore esquerda.
+            struct Node* predecessor = raiz->esquerda; // Começa pela subárvore esquerda
+        }
+
+    }
+    
+}
+
 // função opção_12: Remoção por FUSÃO
+
+struct Node* remocaoPorFusao()
 
 // FUNÇÃO PRINCIPAL ---------------------------------------------------------------
 
@@ -520,6 +554,7 @@ int main() {
                 printf("Opção inválida. Tente novamente.\n");
                 break;
         }
-    } while (opcao != 11);
+
+    } while (opcao != 13);
     return 0;
 }
