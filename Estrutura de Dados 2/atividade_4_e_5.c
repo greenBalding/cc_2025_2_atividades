@@ -128,6 +128,55 @@ struct Node* filaRemoverNode(Fila* fila) {
     return nodeRemovido;
 }
 
+// 1.3.1. vamos criar a struct para o nó da pilha (Stack)
+typedef struct nodePilha {
+    struct Node* nodePosicao;
+    struct nodePilha* proximaPosicao;
+} nodePilha;
+
+// 1.3.2. vamos criar a struct da pilha que permitirá implementar os algoritmos de percurso iterativos
+typedef struct Pilha {
+    struct nodePilha* topo;
+} Pilha;
+
+// 1.3.3. vamos criar a função para criar uma nova pilha
+struct Pilha* pilhaNovo() {
+    struct Pilha* pilha = (struct Pilha*)malloc(sizeof(struct Pilha)); // vamo mallocar a memoria pra pilha
+    pilha->topo = NULL; // seta o topo da pilha como vazio
+    return pilha; // retorna então a struct da pilha
+}
+
+// 1.3.4. agora vamos criar a função para ADICIONAR o nodePilha na Pilha (PUSH)
+void pilhaAdicionar(Pilha* pilha, struct Node* node) {
+    struct nodePilha* nodePilhaNovo = (struct nodePilha*)malloc(sizeof(struct nodePilha)); // vamo mallocar a memoria pro nodePilha
+    
+    nodePilhaNovo->nodePosicao = node; // seta o nodePosicao do nodePilha como o node passado
+    nodePilhaNovo->proximaPosicao = pilha->topo; // o proximaPosicao do novo nó aponta para o topo atual (LIFO - Last In, First Out)
+    
+    pilha->topo = nodePilhaNovo; // atualiza o topo da pilha para o novo nodePilha
+}
+
+// 1.3.5. agora vamos criar a função para REMOVER o nodePilha da Pilha (POP)
+struct Node* pilhaRemover(Pilha* pilha) {
+    // A pilha está vazia?
+    if (pilha->topo == NULL) {
+        return NULL; // se estiver vazia, retorna vazio
+    }
+
+    struct nodePilha* temp = pilha->topo; // temp vai ser o topo da pilha
+    struct Node* nodeRemovido = temp->nodePosicao; // o nodeRemovido vai ser o nodePosicao do temp
+    
+    pilha->topo = pilha->topo->proximaPosicao; // atualiza o topo da pilha para o proximaPosicao do topo atual
+    
+    free(temp);
+    return nodeRemovido;
+}
+
+// 1.3.6. função auxiliar para verificar se a pilha está vazia
+int pilhaVazia(Pilha* pilha) {
+    return pilha->topo == NULL;
+}
+
 // FUNÇÕES DO MEU DE OPÇÕES ---------------------------------------------------------------
 
 // função opcao_1: insert node
@@ -236,6 +285,145 @@ void getMin(struct Node* raiz){
     printf("O valor do nó MIN é: %d\n", noMin->nodeValor);
 }
 
+// FUNÇÕES DE PROFUNDIDADE (DEPTH SEARCH) ---------------------------------------------------------------
+
+// função opcao_5: Depth Search (In Order) - Recursiva
+// Primeiro a gente percorre a sub-árvore esquerda, depois visita a raiz, e depois a sub-árvore direita
+void depthSearchInOrderRecursiva(struct Node* raiz) {
+    // Verifica se a raiz é nula
+    if (raiz == NULL) {
+        return; // se estiver vazia, a gente sai da função
+    }
+    
+    depthSearchInOrderRecursiva(raiz->esquerda); // percorre a sub-árvore esquerda
+    printf("%d ", raiz->nodeValor); // visita a raiz
+    depthSearchInOrderRecursiva(raiz->direita); // percorre a sub-árvore direita
+}
+
+// função opcao_6: Depth Search (Pre Order) - Recursiva
+// Primeiro a gente visita a raiz, depois percorre a sub-árvore esquerda, e depois a sub-árvore direita
+void depthSearchPreOrderRecursiva(struct Node* raiz) {
+    // Verifica se a raiz é nula
+    if (raiz == NULL) {
+        return; // se estiver vazia, a gente sai da função
+    }
+    
+    printf("%d ", raiz->nodeValor); // visita a raiz
+    depthSearchPreOrderRecursiva(raiz->esquerda); // percorre a sub-árvore esquerda
+    depthSearchPreOrderRecursiva(raiz->direita); // percorre a sub-árvore direita
+}
+
+// função opcao_7: Depth Search (Pos Order) - Recursiva
+// Primeiro a gente percorre a sub-árvore esquerda, depois a sub-árvore direita, e por último visita a raiz
+void depthSearchPosOrderRecursiva(struct Node* raiz) {
+    // Verifica se a raiz é nula
+    if (raiz == NULL) {
+        return; // se estiver vazia, a gente sai da função
+    }
+    
+    depthSearchPosOrderRecursiva(raiz->esquerda); // percorre a sub-árvore esquerda
+    depthSearchPosOrderRecursiva(raiz->direita); // percorre a sub-árvore direita
+    printf("%d ", raiz->nodeValor); // visita a raiz
+}
+
+// função opcao_8: Depth Search (Pre Order) - Iterativa usando Pilha
+// Primeiro a gente visita a raiz, depois percorre a sub-árvore esquerda, e depois a sub-árvore direita (usando pilha)
+void depthSearchPreOrderIterativa(struct Node* raiz) {
+    // Verifica se a raiz é nula
+    if (raiz == NULL) {
+        printf("Árvore vazia!\n"); // se estiver vazia, a gente informa o usuário
+        return; // e sai da função
+    }
+    
+    struct Pilha* pilha = pilhaNovo(); // cria uma nova pilha
+    pilhaAdicionar(pilha, raiz); // adiciona a raiz na pilha
+    
+    // Enquanto a pilha não estiver vazia
+    while (!pilhaVazia(pilha)) {
+        struct Node* nodeAtual = pilhaRemover(pilha); // remove o topo da pilha
+        printf("%d ", nodeAtual->nodeValor); // visita o nó removido
+        
+        // Adiciona primeiro a direita, depois a esquerda (assim a esquerda é processada primeiro, mantendo a ordem Pre Order)
+        if (nodeAtual->direita != NULL) {
+            pilhaAdicionar(pilha, nodeAtual->direita); // adiciona o filho à direita
+        }
+        if (nodeAtual->esquerda != NULL) {
+            pilhaAdicionar(pilha, nodeAtual->esquerda); // adiciona o filho à esquerda
+        }
+    }
+    
+    free(pilha); // libera a memória da pilha
+}
+
+// função opcao_9: Depth Search (Pos Order) - Iterativa usando Pilha
+// Primeiro a gente percorre a sub-árvore esquerda, depois a sub-árvore direita, e por último visita a raiz (usando pilha)
+void depthSearchPosOrderIterativa(struct Node* raiz) {
+    // Verifica se a raiz é nula
+    if (raiz == NULL) {
+        printf("Árvore vazia!\n"); // se estiver vazia, a gente informa o usuário
+        return; // e sai da função
+    }
+    
+    struct Pilha* pilha1 = pilhaNovo(); // cria a primeira pilha
+    struct Pilha* pilha2 = pilhaNovo(); // cria a segunda pilha
+    
+    pilhaAdicionar(pilha1, raiz); // adiciona a raiz na primeira pilha
+    
+    // Primeira passagem: enche a pilha2 com ordem Pós
+    while (!pilhaVazia(pilha1)) {
+        struct Node* nodeAtual = pilhaRemover(pilha1); // remove o topo da primeira pilha
+        pilhaAdicionar(pilha2, nodeAtual); // adiciona o nó removido na segunda pilha
+        
+        // Adiciona os filhos na primeira pilha (esquerda depois direita)
+        if (nodeAtual->esquerda != NULL) {
+            pilhaAdicionar(pilha1, nodeAtual->esquerda); // adiciona o filho à esquerda
+        }
+        if (nodeAtual->direita != NULL) {
+            pilhaAdicionar(pilha1, nodeAtual->direita); // adiciona o filho à direita
+        }
+    }
+    
+    // Segunda passagem: imprime os nós da pilha2 (que estão em ordem Pós)
+    while (!pilhaVazia(pilha2)) {
+        struct Node* nodeAtual = pilhaRemover(pilha2); // remove o topo da segunda pilha
+        printf("%d ", nodeAtual->nodeValor); // visita o nó removido
+    }
+    
+    free(pilha1); // libera a memória da primeira pilha
+    free(pilha2); // libera a memória da segunda pilha
+}
+
+// função opcao_10: Depth Search (In Order) - Iterativa usando Pilha
+// Primeiro a gente percorre a sub-árvore esquerda, depois visita a raiz, e depois a sub-árvore direita (usando pilha)
+void depthSearchInOrderIterativa(struct Node* raiz) {
+    // Verifica se a raiz é nula
+    if (raiz == NULL) {
+        printf("Árvore vazia!\n"); // se estiver vazia, a gente informa o usuário
+        return; // e sai da função
+    }
+    
+    struct Pilha* pilha = pilhaNovo(); // cria uma nova pilha
+    struct Node* nodeAtual = raiz; // começa pela raiz
+    
+    // Enquanto não chegarmos ao fim da árvore ou a pilha não estiver vazia
+    while (nodeAtual != NULL || !pilhaVazia(pilha)) {
+        // Vai até o nó mais à esquerda
+        while (nodeAtual != NULL) {
+            pilhaAdicionar(pilha, nodeAtual); // adiciona o nó na pilha
+            nodeAtual = nodeAtual->esquerda; // vai para o filho à esquerda
+        }
+        
+        // O topo da pilha é o nó com nenhum filho à esquerda (ou seja, o próximo nó a ser visitado)
+        nodeAtual = pilhaRemover(pilha); // remove o topo da pilha
+        printf("%d ", nodeAtual->nodeValor); // visita o nó removido
+        
+        // Visita a sub-árvore direita
+        nodeAtual = nodeAtual->direita; // vai para o filho à direita
+    }
+    
+    free(pilha); // libera a memória da pilha
+}
+
 // FUNÇÃO PRINCIPAL ---------------------------------------------------------------
 
 int main() {
@@ -281,16 +469,34 @@ int main() {
                 getMin(raiz);
                 break;
             case 5:
+                printf("Depth Search (In Order - Recursiva): ");
+                depthSearchInOrderRecursiva(raiz);
+                printf("\n");
                 break;
             case 6:
+                printf("Depth Search (Pre Order - Recursiva): ");
+                depthSearchPreOrderRecursiva(raiz);
+                printf("\n");
                 break;
             case 7:
+                printf("Depth Search (Pos Order - Recursiva): ");
+                depthSearchPosOrderRecursiva(raiz);
+                printf("\n");
                 break;
             case 8:
+                printf("Depth Search (Pre Order - Iterativa): ");
+                depthSearchPreOrderIterativa(raiz);
+                printf("\n");
                 break;
             case 9:
+                printf("Depth Search (Pos Order - Iterativa): ");
+                depthSearchPosOrderIterativa(raiz);
+                printf("\n");
                 break;
             case 10:
+                printf("Depth Search (In Order - Iterativa): ");
+                depthSearchInOrderIterativa(raiz);
+                printf("\n");
                 break;
             case 11:
                 printf("Saindo...\n");
