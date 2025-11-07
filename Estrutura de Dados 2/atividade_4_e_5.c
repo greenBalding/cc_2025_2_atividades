@@ -455,7 +455,8 @@ struct Node* remocaoPorCopia(struct Node* raiz, int valor) {
             while(predecessor->direita != NULL) {
                 predecessor = predecessor->direita;
             }
-            
+            // Quando o valor do predecessor for NULL ele sai do loop, e com isso a gente tem que pegar o valor do predecessor e COPIAR para o nó RAIZ que está armazenando o valor do nó que será removido.
+            raiz->nodeValor = predecessor->nodeValor;
         }
 
     }
