@@ -34,7 +34,9 @@ Instruções: Implemente as funções conforme requisitado:
 >>> N2 Atividade 02 <<<
 
     - Implementar os algoritmos de remoção por CÓPIA;
+        -------- FUNÇÃO 11: remocaoPorCopia(struct Node* raiz, int valor)
     - Implementar os algoritmos de remoção por FUSÃO.
+        -------- FUNÇÃO 12: remocaoPorFusao(struct Node* raiz, int valor)
 
 */
 
@@ -435,37 +437,90 @@ struct Node* remocaoPorCopia(struct Node* raiz, int valor) {
 
     // Se a árvore não estiver vazia, ai a gente começa a implementar a lógica de remoção por cópia.
     // Pra isso primeiro a gente compara o valor que será removido com o valor do nó atual
-    if (valor < raiz->nodeValor) { // Se valor for menor que o valor do nó a gente vai para a subárvore da esquerda
+    if (valor < raiz->nodeValor) { // Se valor for menor que o valor do nó a gente vai para a subárvore da esquerda. Ou seja, começa a apontar o ponteiro para o endereço do nó da subárvore esquerda
         raiz->esquerda = remocaoPorCopia(raiz->esquerda, valor); // A gente chama a função recursivamente para a subárvore da esquerda. 
         // Dessa forma a gente vai descendo recursivamente até encontrar o nó que será removido, dado que o ponteiro do nó a esquerda será atualizado com o retorno da função recursiva.
-
-
 
     } else if (valor > raiz->nodeValor) { // Se valor for maior que o valor do nó a gente vai para a subárvore da direita
         raiz->direita = remocaoPorCopia(raiz->direita, valor); // A gente chama a função recursivamente para a subárvore da direita
         // Da mesma forma que a gente desce recursivamente para a esquerda atualizando o ponteiro, aqui a gente desce para a direita atualizando o ponteiro do nó a direita.
 
-
     } else { // Se o valor for igual, é porque encontramos o nó a ser removido
         // No caso em que vamos remover o nó por cópia, primeiro vamos verificar se o nó tem dois filhos, e se tiver vamos prosseguir com a busca pelo predecessor.
         // Para isso vamos criar mais um bloco de condições 'if'
         if (raiz->esquerda != NULL && raiz->direita != NULL){ // Se o nó a esquerda e o nó a direita são diferentes de vázio, então o nó TÊM 2 FILHOS.
-            // Dado que tem 2 filhos vamos buscar pelo predecessor, que é o maior valor da subárvore esquerda.
+            // Dado que tem 2 filhos vamos buscar pelo predecessor, que é o maior valor da subárvore esquerda. Ou seja, vamos pegar o nó mais a direita da subárvore esquerda.
             struct Node* predecessor = raiz->esquerda; // Começa pela subárvore esquerda
             while(predecessor->direita != NULL) {
                 predecessor = predecessor->direita;
             }
-            // Quando o valor do predecessor for NULL ele sai do loop, e com isso a gente tem que pegar o valor do predecessor e COPIAR para o nó RAIZ que está armazenando o valor do nó que será removido.
+            // Achado o valor do predecessor a gente copia o valor dele então para o nó que será removido
             raiz->nodeValor = predecessor->nodeValor;
+            // Só que como só copiar o valor do endereço do predecessor nao é suficiente, já que o nó continua existindo, o que a gente faz então é chamar a funçao de remoçao de forma que a gente vai remover o predecessor da subárvore esquerda
+            raiz->esquerda = remocaoPorCopia(raiz->esquerda, predecessor->nodeValor);
+        } else {
+            // Tratado os casos em que o nó tem 2 filhos resta entao os casos em que se tem nenhum filho ou apenas 1 filho
+            // Vamos começar verificando no primeiro if se o nó tem um filho a esquerda
+            struct Node* temp = raiz;
+            if (raiz->esquerda != NULL) {
+                raiz = raiz->esquerda; // substitui pela subárvore esquerda
+            } else {
+                raiz = raiz->direita;
+            }
+            free(temp);
         }
 
     }
-    
+
+    return raiz;
+
 }
 
 // função opção_12: Remoção por FUSÃO
+// Começamos com a mesma lógica da remoção por cópia
 
-struct Node* remocaoPorFusao()
+struct Node* remocaoPorFusao(struct Node* raiz, int valor) {
+    // Primeiro, verificar se a raiz é nula
+    if (raiz == NULL) {
+        return NULL;
+    }
+
+    // Se a árvore não estiver vazia, ai a gente começa a implementar a lógica de remoção por fusão.
+    // Pra isso primeiro a gente compara o valor que será removido com o valor do nó atual
+    if (valor < raiz->nodeValor) {
+        raiz->esquerda = remocaoPorFusao(raiz->esquerda, valor);
+    } else if (valor > raiz->nodeValor) {
+        raiz->direita = remocaoPorFusao(raiz->direita, valor);
+    } else {
+        // Encontrou o nó a ser removido
+        // Caso 0 ou 1 filho: substitui pelo filho não-nulo (ou NULL)
+        if (raiz->esquerda == NULL) {
+            struct Node* temp = raiz->direita;
+            free(raiz);
+            return temp;
+        } else if (raiz->direita == NULL) {
+            struct Node* temp = raiz->esquerda;
+            free(raiz);
+            return temp;
+        } else {
+            // Caso 2 filhos: FUSÃO
+            // Encontra o maior da subárvore esquerda
+            struct Node* tmp = raiz->esquerda;
+            while (tmp->direita != NULL) {
+                tmp = tmp->direita;
+            }
+            // Anexa a subárvore direita do nó removido no rightmost da esquerda
+            tmp->direita = raiz->direita;
+            // Substitui o nó removido pela sua subárvore esquerda
+            struct Node* old = raiz;
+            raiz = raiz->esquerda;
+            free(old);
+        }
+    }
+
+    return raiz;
+}
+
 
 // FUNÇÃO PRINCIPAL ---------------------------------------------------------------
 
@@ -546,11 +601,23 @@ int main() {
                 
             case 11:
                 printf("Remoção por CÓPIA:\n");
-                // Chamar a função de remoção por cópia
+                {
+                    int valorRemover;
+                    printf("Digite o valor a ser removido: \n");
+                    scanf("%d", &valorRemover);
+                    raiz = remocaoPorCopia(raiz, valorRemover);
+                    printf("Operação concluída.\n");
+                }
                 break;
             case 12:
                 printf("Remoção por FUSÃO:\n");
-                // Chamar a função de remoção por fusão
+                {
+                    int valorRemover;
+                    printf("Digite o valor a ser removido: \n");
+                    scanf("%d", &valorRemover);
+                    raiz = remocaoPorFusao(raiz, valorRemover);
+                    printf("Operação (fusão) concluída.\n");
+                }
                 break;
             case 13:
                 printf("Saindo...\n");
